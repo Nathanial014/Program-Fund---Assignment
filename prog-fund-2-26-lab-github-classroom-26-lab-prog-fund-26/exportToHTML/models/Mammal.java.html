@@ -1,0 +1,96 @@
+<html>
+<head>
+<title>Mammal.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Mammal.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">models</span><span class="s2">;</span>
+
+<span class="s0">public abstract class </span><span class="s1">Mammal </span><span class="s0">extends </span><span class="s1">Pet </span><span class="s2">{</span>
+
+    <span class="s3">// instances //</span>
+    <span class="s0">private char </span><span class="s1">sex</span><span class="s2">;</span>
+    <span class="s0">private boolean </span><span class="s1">vaccinated</span><span class="s2">;</span>
+    <span class="s0">private boolean </span><span class="s1">neutered</span><span class="s2">;</span>
+    <span class="s0">private double </span><span class="s1">weight</span><span class="s2">;</span>
+
+    <span class="s3">// constructor //</span>
+    <span class="s0">public </span><span class="s1">Mammal</span><span class="s2">(</span><span class="s1">String name</span><span class="s2">, </span><span class="s0">int </span><span class="s1">age</span><span class="s2">, </span><span class="s1">Owner owner</span><span class="s2">, </span><span class="s0">int </span><span class="s1">id</span><span class="s2">, </span><span class="s0">char </span><span class="s1">sex</span><span class="s2">, </span><span class="s0">boolean </span><span class="s1">vaccinated</span><span class="s2">, </span><span class="s0">double </span><span class="s1">weight</span><span class="s2">, </span><span class="s0">boolean </span><span class="s1">neutered</span><span class="s2">) {</span>
+
+        <span class="s3">// calling the Pet constructor</span>
+        <span class="s0">super</span><span class="s2">(</span><span class="s1">name</span><span class="s2">, </span><span class="s1">age</span><span class="s2">, </span><span class="s1">owner</span><span class="s2">, </span><span class="s1">id</span><span class="s2">);</span>
+
+        <span class="s1">setSex</span><span class="s2">(</span><span class="s1">sex</span><span class="s2">);</span>
+        <span class="s1">setVaccinated</span><span class="s2">(</span><span class="s1">vaccinated</span><span class="s2">);</span>
+        <span class="s1">setWeight</span><span class="s2">(</span><span class="s1">weight</span><span class="s2">);</span>
+        <span class="s1">setNeutered</span><span class="s2">(</span><span class="s1">neutered</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// getters //</span>
+    <span class="s0">public char </span><span class="s1">getSex</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">sex</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isVaccinated</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">vaccinated</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isNeutered</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">neutered</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public double </span><span class="s1">getWeight</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">weight</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// setters //</span>
+    <span class="s0">public void </span><span class="s1">setSex</span><span class="s2">(</span><span class="s0">char </span><span class="s1">sex</span><span class="s2">) {</span>
+        <span class="s3">// Only allow M, F, U</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">sex </span><span class="s2">== </span><span class="s4">'M' </span><span class="s2">|| </span><span class="s1">sex </span><span class="s2">== </span><span class="s4">'F' </span><span class="s2">|| </span><span class="s1">sex </span><span class="s2">== </span><span class="s4">'U'</span><span class="s2">) {</span>
+            <span class="s0">this</span><span class="s2">.</span><span class="s1">sex </span><span class="s2">= </span><span class="s1">sex</span><span class="s2">;</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s0">this</span><span class="s2">.</span><span class="s1">sex </span><span class="s2">= </span><span class="s4">'U'</span><span class="s2">; </span><span class="s3">// default</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setVaccinated</span><span class="s2">(</span><span class="s0">boolean </span><span class="s1">vaccinated</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">vaccinated </span><span class="s2">= </span><span class="s1">vaccinated</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setNeutered</span><span class="s2">(</span><span class="s0">boolean </span><span class="s1">neutered</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">neutered </span><span class="s2">= </span><span class="s1">neutered</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setWeight</span><span class="s2">(</span><span class="s0">double </span><span class="s1">weight</span><span class="s2">) {</span>
+        <span class="s3">// Valid range: 2–200 kg</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">weight </span><span class="s2">&gt;= </span><span class="s5">2 </span><span class="s2">&amp;&amp; </span><span class="s1">weight </span><span class="s2">&lt;= </span><span class="s5">200</span><span class="s2">) {</span>
+            <span class="s0">this</span><span class="s2">.</span><span class="s1">weight </span><span class="s2">= </span><span class="s1">weight</span><span class="s2">;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// toString //</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">String toString</span><span class="s2">() {</span>
+        <span class="s0">return super</span><span class="s2">.</span><span class="s1">toString</span><span class="s2">() +</span>
+                <span class="s4">&quot;, sex=&quot; </span><span class="s2">+ </span><span class="s1">sex </span><span class="s2">+</span>
+                <span class="s4">&quot;, vaccinated=&quot; </span><span class="s2">+ </span><span class="s1">vaccinated </span><span class="s2">+</span>
+                <span class="s4">&quot;, neutered=&quot; </span><span class="s2">+ </span><span class="s1">neutered </span><span class="s2">+</span>
+                <span class="s4">&quot;, weight=&quot; </span><span class="s2">+ </span><span class="s1">weight</span><span class="s2">;</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

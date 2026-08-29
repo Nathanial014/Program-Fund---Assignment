@@ -1,0 +1,149 @@
+<html>
+<head>
+<title>Pet.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #2aacb8;}
+.s5 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Pet.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">models</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">utils</span><span class="s2">.</span><span class="s1">Utilities</span><span class="s2">;</span>
+
+<span class="s0">public abstract class </span><span class="s1">Pet </span><span class="s2">{</span>
+
+    <span class="s3">// static field //</span>
+    <span class="s0">private static int </span><span class="s1">nextId </span><span class="s2">= </span><span class="s4">1000</span><span class="s2">;</span>
+
+    <span class="s3">// instance fields //</span>
+    <span class="s0">private int </span><span class="s1">id</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">String name</span><span class="s2">;</span>
+    <span class="s0">private int </span><span class="s1">age</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">Owner owner</span><span class="s2">;</span>
+    <span class="s0">private boolean</span><span class="s2">[] </span><span class="s1">daysAttending</span><span class="s2">;</span>
+
+
+    <span class="s3">// constructor //</span>
+    <span class="s0">public </span><span class="s1">Pet</span><span class="s2">(</span><span class="s1">String name</span><span class="s2">, </span><span class="s0">int </span><span class="s1">age</span><span class="s2">, </span><span class="s1">Owner owner</span><span class="s2">, </span><span class="s0">int </span><span class="s1">id</span><span class="s2">) {</span>
+        <span class="s3">// If id is passed as 0, generate automatically</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">id </span><span class="s2">== </span><span class="s4">0</span><span class="s2">) {</span>
+            <span class="s0">this</span><span class="s2">.</span><span class="s1">id </span><span class="s2">= </span><span class="s1">nextId</span><span class="s2">++;</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s0">this</span><span class="s2">.</span><span class="s1">id </span><span class="s2">= </span><span class="s1">id</span><span class="s2">;</span>
+        <span class="s2">}</span>
+
+        <span class="s1">setName</span><span class="s2">(</span><span class="s1">name</span><span class="s2">);   </span><span class="s3">// ensures truncation to 30 chars</span>
+        <span class="s1">setAge</span><span class="s2">(</span><span class="s1">age</span><span class="s2">);</span>
+        <span class="s1">setOwner</span><span class="s2">(</span><span class="s1">owner</span><span class="s2">);</span>
+
+        <span class="s3">// Default: all days false (not attending)</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">daysAttending </span><span class="s2">= </span><span class="s0">new boolean</span><span class="s2">[]{</span><span class="s0">false</span><span class="s2">, </span><span class="s0">false</span><span class="s2">, </span><span class="s0">false</span><span class="s2">, </span><span class="s0">false</span><span class="s2">, </span><span class="s0">false</span><span class="s2">, </span><span class="s0">false</span><span class="s2">};</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// getters //</span>
+    <span class="s0">public int </span><span class="s1">getId</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">id</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String getName</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">name</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public int </span><span class="s1">getAge</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">age</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">Owner getOwner</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">owner</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean</span><span class="s2">[] </span><span class="s1">getDaysAttending</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">daysAttending</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+
+    <span class="s3">// setters //</span>
+    <span class="s0">public void </span><span class="s1">setId</span><span class="s2">(</span><span class="s0">int </span><span class="s1">id</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">id </span><span class="s2">= </span><span class="s1">id</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setName</span><span class="s2">(</span><span class="s1">String name</span><span class="s2">) {</span>
+        <span class="s1">initName</span><span class="s2">(</span><span class="s1">name</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">initName</span><span class="s2">(</span><span class="s1">String name</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">name</span><span class="s2">.</span><span class="s1">length</span><span class="s2">() &gt; </span><span class="s4">30</span><span class="s2">) {</span>
+            <span class="s0">this</span><span class="s2">.</span><span class="s1">name </span><span class="s2">= </span><span class="s1">name</span><span class="s2">.</span><span class="s1">substring</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">30</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s0">this</span><span class="s2">.</span><span class="s1">name </span><span class="s2">= </span><span class="s1">name</span><span class="s2">;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setAge</span><span class="s2">(</span><span class="s0">int </span><span class="s1">age</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">age </span><span class="s2">&gt;= </span><span class="s4">0</span><span class="s2">) {</span>
+            <span class="s0">this</span><span class="s2">.</span><span class="s1">age </span><span class="s2">= </span><span class="s1">age</span><span class="s2">;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setOwner</span><span class="s2">(</span><span class="s1">Owner owner</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">owner </span><span class="s2">= </span><span class="s1">owner</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setDaysAttending</span><span class="s2">(</span><span class="s0">boolean</span><span class="s2">[] </span><span class="s1">daysAttending</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">daysAttending </span><span class="s2">!= </span><span class="s0">null </span><span class="s2">&amp;&amp; </span><span class="s1">daysAttending</span><span class="s2">.</span><span class="s1">length </span><span class="s2">== </span><span class="s4">6</span><span class="s2">) {</span>
+            <span class="s0">this</span><span class="s2">.</span><span class="s1">daysAttending </span><span class="s2">= </span><span class="s1">daysAttending</span><span class="s2">;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">checkIn</span><span class="s2">(</span><span class="s0">int </span><span class="s1">dayIndex</span><span class="s2">) {</span>
+        <span class="s3">// Valid days: 0–5</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">dayIndex </span><span class="s2">&gt;= </span><span class="s4">0 </span><span class="s2">&amp;&amp; </span><span class="s1">dayIndex </span><span class="s2">&lt;= </span><span class="s4">5</span><span class="s2">) {</span>
+            <span class="s1">daysAttending</span><span class="s2">[</span><span class="s1">dayIndex</span><span class="s2">] = </span><span class="s0">true</span><span class="s2">;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">checkOut</span><span class="s2">(</span><span class="s0">int </span><span class="s1">dayIndex</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">dayIndex </span><span class="s2">&gt;= </span><span class="s4">0 </span><span class="s2">&amp;&amp; </span><span class="s1">dayIndex </span><span class="s2">&lt;= </span><span class="s4">5</span><span class="s2">) {</span>
+            <span class="s1">daysAttending</span><span class="s2">[</span><span class="s1">dayIndex</span><span class="s2">] = </span><span class="s0">false</span><span class="s2">;</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public int </span><span class="s1">numOfDaysAttending</span><span class="s2">() {</span>
+        <span class="s0">int </span><span class="s1">count </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+        <span class="s0">for </span><span class="s2">(</span><span class="s0">boolean </span><span class="s1">attending </span><span class="s2">: </span><span class="s1">daysAttending</span><span class="s2">) {</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">attending</span><span class="s2">) {</span>
+                <span class="s1">count</span><span class="s2">++;</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+        <span class="s0">return </span><span class="s1">count</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s3">// abstract method //</span>
+    <span class="s0">public abstract double </span><span class="s1">calculateWeeklyFee</span><span class="s2">();</span>
+
+    <span class="s3">// toString //</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">String toString</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s5">&quot;Pet{&quot; </span><span class="s2">+</span>
+                <span class="s5">&quot;id=&quot; </span><span class="s2">+ </span><span class="s1">id </span><span class="s2">+</span>
+                <span class="s5">&quot;, name='&quot; </span><span class="s2">+ </span><span class="s1">name </span><span class="s2">+ </span><span class="s5">'</span><span class="s0">\'</span><span class="s5">' </span><span class="s2">+</span>
+                <span class="s5">&quot;, age=&quot; </span><span class="s2">+ </span><span class="s1">age </span><span class="s2">+</span>
+                <span class="s5">&quot;, owner=&quot; </span><span class="s2">+ </span><span class="s1">owner </span><span class="s2">+</span>
+                <span class="s5">&quot;, daysAttending=&quot; </span><span class="s2">+ </span><span class="s1">Arrays</span><span class="s2">.</span><span class="s1">toString</span><span class="s2">(</span><span class="s1">daysAttending</span><span class="s2">) +</span>
+                <span class="s5">'}'</span><span class="s2">;</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
