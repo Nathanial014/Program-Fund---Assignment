@@ -21,7 +21,19 @@ Once the model layer was stable, I implemented the OwnerAPI and PetsDayCareAPI, 
 
 After the APIs were functional, I moved on to the Driver class to handle user input and integrate all components into a working console application.
 
-Finally, I developed a full JUnit 5 test suite, covering all model classes and both APIs, achieving high coverage for PetsDayCareAPI.
+JUnit 5 test suite – covering all model classes and APIs, achieving high coverage for PetsDayCareAPI.
+
+Finally, I completed the Additional Requirements:
+
+Rabbit class – extending Mammal with new fields (earType, earLengthCm, furColour, favouriteFood) and full validation.
+
+RabbitUtility – validation helpers for earType and furColour.
+
+RabbitTest – JUnit 5 tests covering validation, fee calculation, and defaults.
+
+PetsDayCareAPI updates – added rabbit support to save(), load(), counting, and reporting.
+
+Driver updates – added menu option and input prompts for creating rabbits.
 
 Main Difficulties and How I Solved Them
 1. Constructor Mismatches
@@ -90,6 +102,8 @@ How AI tools can accelerate development but still require human oversight.
 References Used
 Code References
 Class notes and lecture materials provided by SETU.
+Used a similar project on GitHub for Reference and Bug Fixing
+https://github.com/rachel-gillespie/pet-daycare-management-system/tree/main
 
 Java documentation for inheritance, abstract classes, and JUnit 5.
 

@@ -103,6 +103,7 @@ public class Driver {
                 2) Cat
                 3) Bird
                 4) Parrot
+                5) Rabbit
                 """);
 
         int type = ScannerInput.readNextInt("==>> ");
@@ -137,6 +138,18 @@ public class Driver {
                 pet = new Parrot(name, age, owner, id,
                         wingSpan, canFly,
                         vocab, numDaysPerWeek);
+            }
+            case 4 -> {
+                String earType = ScannerInput.readNextString("Ear Type (lop/upright): ");
+                double earLength = ScannerInput.readNextDouble("Ear Length (cm): ");
+                String furColour = ScannerInput.readNextString("Fur Colour (solid/spotted/broken): ");
+                String favouriteFood = ScannerInput.readNextString("Favourite Food: ");
+
+                Pet rabbit = new Rabbit(name, age, owner, id,
+                        sex, vaccinated, weight, neutered,
+                        earType, earLength, furColour, favouriteFood);
+
+                dayCare.addPet(rabbit);
             }
             default -> System.out.println("Invalid type");
         }

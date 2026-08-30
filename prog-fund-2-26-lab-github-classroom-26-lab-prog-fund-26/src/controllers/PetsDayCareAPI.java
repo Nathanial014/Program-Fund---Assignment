@@ -85,6 +85,16 @@ public class PetsDayCareAPI implements ISerializer {
         return sb.toString();
     }
 
+    public String listAllRabbits() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < pets.size(); i++) {
+            if (pets.get(i) instanceof Rabbit) {
+                sb.append(i).append(": ").append(pets.get(i)).append("\n");
+            }
+        }
+        return sb.length() == 0 ? "No Rabbits" : sb.toString();
+    }
+
     public String listAllCats() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < pets.size(); i++) {
@@ -148,6 +158,13 @@ public class PetsDayCareAPI implements ISerializer {
     // counting methods //
     public int numberOfPets() {
         return pets.size();
+    }
+
+    public int numberOfRabbits() {
+        int count = 0;
+        for (Pet p : pets)
+            if (p instanceof Rabbit) count++;
+        return count;
     }
 
     public int numberOfCats() {
@@ -342,6 +359,24 @@ public class PetsDayCareAPI implements ISerializer {
                             b.isCanFly() + "|" +
                             b.getNumDaysPerWeek());
                 }
+
+                else if (p instanceof Rabbit) {
+                    Rabbit r = (Rabbit) p;
+                    pw.println("RABBIT|" +
+                            r.getName() + "|" +
+                            r.getAge() + "|" +
+                            r.getOwner().getName() + "|" +
+                            r.getOwner().getPhone() + "|" +
+                            r.getId() + "|" +
+                            r.getSex() + "|" +
+                            r.isVaccinated() + "|" +
+                            r.getWeight() + "|" +
+                            r.isNeutered() + "|" +
+                            r.getEarType() + "|" +
+                            r.getEarLengthCm() + "|" +
+                            r.getFurColour() + "|" +
+                            r.getFavouriteFood());
+                }
             }
 
             pw.close();
@@ -404,6 +439,17 @@ public class PetsDayCareAPI implements ISerializer {
                         pets.add(new Parrot(name, age, owner, id,
                                 wingSpan, canFly,
                                 vocabInt, numDaysPerWeek));
+                        break;
+
+                    case "RABBIT":
+                        String earType = parts[10];
+                        double earLength = Double.parseDouble(parts[11]);
+                        String furColour = parts[12];
+                        String favouriteFood = parts[13];
+
+                        pets.add(new Rabbit(name, age, owner, id,
+                                sex, vaccinated, weight, neutered,
+                                earType, earLength, furColour, favouriteFood));
                         break;
                 }
             }
