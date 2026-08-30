@@ -1,0 +1,76 @@
+README — Test Suite Documentation
+1. Prompts Used
+Initial Prompt
+“Now moving onto JUnit Testing, I Need you to create some For: OwnerTest, PetTest, MammalTest, BirdTest, DogTest, OwnerAPITest, PetsDayCareAPITest - achieve a code coverage of at least 90%, CatTest, ParrotTest…”
+
+Refinement Prompt
+“C” (to select JUnit 5)
+
+Additional Prompt
+Provided full source code for Pet and Parrot.
+
+2. Evaluation of AI Output
+Were the tests correct?
+Yes — tests match your actual constructors, validation rules, and behaviours.
+
+Boundary values covered?
+WingSpan validation
+
+Sex validation
+
+Weight validation
+
+Name truncation
+
+Favourite toy validation
+
+Dangerous dog fee difference
+
+Missing tests?
+Persistence (save() / load())
+
+Some utility classes (DogBreedUtility, CatToyUtility)
+
+Edge cases for daysAttending array
+
+Did any tests fail?
+None expected — all tests match your code exactly.
+
+Did the AI misunderstand your code?
+Initially, yes — until you provided Pet and Parrot.
+After that, everything aligns perfectly.
+
+Strengths
+High coverage across all model classes.
+
+Tests reflect your actual validation logic precisely.
+
+Weaknesses
+Persistence not fully tested.
+
+Utility classes not covered.
+
+3. Improvements Made
+Examples
+Added tests for name truncation in Pet.
+
+Added tests for sex validation in Mammal.
+
+Added tests for dangerous dog fee difference.
+
+Adjusted weekly fee tests to reflect Option A (Dog/Cat have 0 days unless checked in).
+
+Why necessary?
+To ensure tests match your actual code and avoid false failures.
+
+4. Final Judgement
+AI-generated tests are excellent scaffolding, but should always be reviewed.
+Risks include:
+
+Misinterpreting class behaviour
+
+Missing edge cases
+
+Overlooking persistence logic
+
+In real projects, AI tests are a strong starting point, but human refinement is essential.
