@@ -1,3 +1,116 @@
+Reflection on Assignment
+Name:  Nathanial McBarnett
+Student Number: 20103232
+
+Chronology of My Implementation
+I began by implementing the core model classes in the order recommended by the specification:
+
+Owner – simple fields and validation.
+
+Pet – base class with ID generation, name truncation, attendance tracking, and abstract fee method.
+
+Mammal – extended Pet with sex, vaccination, neutering, and weight validation.
+
+Dog and Cat – added breed validation, dangerous breed logic, indoor cat logic, favourite toy validation.
+
+Bird (abstract) – wingspan validation and canFly flag.
+
+Parrot – vocabulary size conversion using BirdUtility.
+
+Once the model layer was stable, I implemented the OwnerAPI and PetsDayCareAPI, focusing on CRUD operations, reporting methods, counting methods, sorting, and weekly income calculations.
+
+After the APIs were functional, I moved on to the Driver class to handle user input and integrate all components into a working console application.
+
+Finally, I developed a full JUnit 5 test suite, covering all model classes and both APIs, achieving high coverage for PetsDayCareAPI.
+
+Main Difficulties and How I Solved Them
+1. Constructor Mismatches
+The biggest challenge was aligning constructor signatures across Pet, Mammal, Bird, Dog, Cat, and Parrot.
+Several errors appeared such as:
+
+“Expected X arguments but found Y”
+
+“Bird is abstract; cannot be instantiated”
+
+Missing fields like sex, vaccinated, weight, neutered
+
+I solved this by carefully reviewing each class and ensuring the API and Driver used the correct constructor signatures.
+
+2. PetsDayCareAPI Load/Save Logic
+The load() method originally parsed fields incorrectly (wrong indexes, missing mammal fields, incorrect bird/parrot handling).
+I rewrote the parsing logic to match the actual constructors and removed attempts to instantiate abstract Bird.
+
+3. Weekly Fee Logic
+Dog and Cat do not use numDaysPerWeek, which caused confusion in fee calculations.
+I chose Option A: leave Dog and Cat unchanged and accept that their weekly fee depends entirely on numOfDaysAttending().
+
+4. Driver Input Errors
+Driver attempted to call ScannerInput.readNextChar(), which did not exist.
+I implemented the method myself with proper validation.
+
+5. Test Suite Coverage
+Achieving high coverage required writing tests for:
+
+CRUD operations
+
+Reporting methods
+
+Counting methods
+
+Sorting
+
+Validation logic
+
+Weekly fee calculations
+
+I used AI assistance to generate initial drafts, then refined them manually to ensure correctness.
+
+Remaining Bugs or Unfinished Elements
+Persistence (save/load) does not fully support all pet types (e.g., Bird is abstract but still saved).
+
+Utilities (DogBreedUtility, CatToyUtility, BirdUtility) are assumed to work correctly but not fully tested.
+
+Driver does not validate all user inputs (e.g., invalid numbers, invalid characters).
+
+Weekly fee logic for Dog and Cat may not reflect real-world behaviour since they default to 0 days unless checked in.
+
+Main Learnings from the Assignment
+The importance of consistent constructor design across inheritance hierarchies.
+
+How small mismatches in parameter order or type can cascade into large debugging sessions.
+
+The value of unit testing for catching regressions early.
+
+How abstract classes enforce design constraints (e.g., Bird cannot be instantiated).
+
+The need for careful file parsing and defensive programming when loading data.
+
+How AI tools can accelerate development but still require human oversight.
+
+References Used
+Code References
+Class notes and lecture materials provided by SETU.
+
+Java documentation for inheritance, abstract classes, and JUnit 5.
+
+AI Tool Usage
+I used Microsoft Copilot to assist with:
+
+Debugging constructor mismatches
+
+Rewriting PetsDayCareAPI load/save logic
+
+Generating initial drafts of JUnit 5 test cases
+
+Producing structured README and reflection content
+
+I manually reviewed, corrected, and extended all AI-generated code to ensure correctness and alignment with the assignment specification.
+
+Statement of Originality
+Please choose one:
+
+This is my work apart from the specific references noted above (and any code from class notes). I understand the code and can describe any parts of the solution if needs be.
+
 README — Test Suite Documentation
 1. Prompts Used
 Initial Prompt
