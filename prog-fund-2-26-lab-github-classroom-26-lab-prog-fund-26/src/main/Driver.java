@@ -1,316 +1,322 @@
 package main;
 
-import controllers.NewsFeed;
-import models.*;
+import controllers.PetsDayCareAPI;
+import models.Owner;
+import models.Pet;
 import utils.ScannerInput;
+
+import java.io.File;
 
 public class Driver {
 
-    private final NewsFeed newsFeed = new NewsFeed();
+    private PetsDayCareAPI dayCare = new PetsDayCareAPI("SETU Kennels", 200, new File("pets.txt"));
 
     public static void main(String[] args) {
-        new Driver();
+        new Driver().run();
     }
 
-    public Driver() {
-        runMenu();
-    }
+    private void run() {
+        int option;
 
-    private int mainMenu(){
-        return ScannerInput.readNextInt("""
-               Social Network Menu
-                  -----------------------
-                  1) Add a Post
-                  2) Update a Post
-                  3) Delete a Post
-                  4) List Posts
-                  5) Like / Unlike Posts
-                  -----------------------
-                  6) Save Posts
-                  7) Load Posts
-                  -----------------------
-                  0) Exit
-               ==>>  """);
-    }
+        do {
+            printMainMenu();
+            option = ScannerInput.readNextInt("==>> ");
 
-    private void runMenu(){
-        int option = mainMenu();
-
-        while (option != 0){
-
-            switch (option){
-                case 1 -> addPost();
-                case 2 -> updatePost();
-                case 3 -> deletePost();
-                case 4 -> viewPosts();
-                case 5 -> likeUnlikePosts();
-                case 6 -> savePosts();
-                case 7 -> loadPosts();
-                default -> System.out.println("Invalid option entered: " + option);
+            switch (option) {
+                case 1 -> petsCRUDMenu();
+                case 2 -> reportsMenu();
+                case 3 -> searchMenu();
+                case 4 -> sortMenu();
+                case 10 -> saveAll();
+                case 11 -> loadAll();
+                case 0 -> System.out.println("Exiting... Goodbye!");
+                default -> System.out.println("Invalid option");
             }
 
-            //pause the program so that the user can read what we just printed to the terminal window
-            ScannerInput.readNextLine("\nPress enter key to continue...");
-
-            //display the main menu again
-            option = mainMenu();
-        }
-
-        //the user chose option 0, so exit the program
-        System.out.println("Exiting...bye");
-        System.exit(0);
+        } while (option != 0);
     }
 
+    // ------------------------------------------------------------
+    // Main Menu
+    // ------------------------------------------------------------
+    private void printMainMenu() {
+        System.out.println("""
+                ------- Pet Day Care -------------
+                | 1) Pets CRUD MENU              |
+                | 2) Reports MENU                |
+                |--------------------------------|
+                | 3) Search Pets                 |
+                | 4) Sort Pets                   |
+                |--------------------------------|
+                | 10) Save all                   |
+                | 11) Load all                   |
+                |--------------------------------|
+                | 0) Exit                        |
+                ---------------------------------
+                """);
+    }
 
-    //------------------------------------------------------------------------------------------
-    //  Option 1 - Add Posts - the user is asked if it is a message or a photo pet
-    //             and the required details are then gathered before adding the specific object
-    //------------------------------------------------------------------------------------------
-    private void addPost(){
+    // ------------------------------------------------------------
+    // CRUD Menu
+    // ------------------------------------------------------------
+    private void petsCRUDMenu() {
+        int option;
 
-        boolean isAdded = false;
-
-        int option = ScannerInput.readNextInt("""
+        do {
+            System.out.println("""
+                    ----- Pets CRUD Menu -----
+                    | 1) Add a new Pet        |
+                    | 2) Delete a Pet         |
+                    | 3) List all Pets        |
+                    | 4) Update Pet           |
+                    | 0) Return to main menu  |
                     ---------------------------
-                    |   1) Add a Message Post |
-                    |   2) Add a Photo Post   |
-                    |   3) Add an Event Post  |
-                    ---------------------------
-                    ==>> """);
+                    """);
+
+            option = ScannerInput.readNextInt("==>> ");
+
+            switch (option) {
+                case 1 -> addPet();
+                case 2 -> deletePet();
+                case 3 -> System.out.println(dayCare.listAllPets());
+                case 4 -> updatePet();
+                case 0 -> {}
+                default -> System.out.println("Invalid option");
+            }
+
+        } while (option != 0);
+    }
+
+    private void addPet() {
+        System.out.println("Add Pet:");
+        String name = ScannerInput.readNextString("Enter name: ");
+        int age = ScannerInput.readNextInt("Enter age: ");
+        String ownerName = ScannerInput.readNextString("Owner name: ");
+        String ownerPhone = ScannerInput.readNextString("Owner phone: ");
+        int id = ScannerInput.readNextInt("Pet ID: ");
+        int days = ScannerInput.readNextInt("Days per week: ");
+
+        Owner owner = new Owner(ownerName, ownerPhone);
+
+        System.out.println("""
+                Choose Pet Type:
+                1) Dog
+                2) Cat
+                3) Bird
+                4) Parrot
+                """);
+
+        int type = ScannerInput.readNextInt("==>> ");
+
+        Pet pet = null;
+
+        switch (type) {
+            case 1 -> {
+                String breed = ScannerInput.readNextString("Breed: ");
+                boolean dangerous = ScannerInput.readNextBoolean("Dangerous (true/false): ");
+                pet = new Dog(name, age, owner, id, breed, dangerous, days);
+            }
+            case 2 -> {
+                boolean indoor = ScannerInput.readNextBoolean("Indoor (true/false): ");
+                pet = new Cat(name, age, owner, id, indoor, days);
+            }
+            case 3 -> {
+                double wingSpan = ScannerInput.readNextDouble("WingSpan: ");
+                boolean canFly = ScannerInput.readNextBoolean("Can Fly (true/false): ");
+                pet = new Bird(name, age, owner, id, wingSpan, canFly);
+            }
+            case 4 -> {
+                double wingSpan = ScannerInput.readNextDouble("WingSpan: ");
+                boolean canFly = ScannerInput.readNextBoolean("Can Fly (true/false): ");
+                int vocab = ScannerInput.readNextInt("Vocabulary size (int): ");
+                pet = new Parrot(name, age, owner, id, wingSpan, canFly, vocab);
+            }
+            default -> System.out.println("Invalid type");
+        }
+
+        if (pet != null && dayCare.addPet(pet)) {
+            System.out.println("Pet added successfully.");
+        } else {
+            System.out.println("Failed to add pet.");
+        }
+    }
+
+    private void deletePet() {
+        int index = ScannerInput.readNextInt("Enter index to delete: ");
+        Pet removed = dayCare.deletePetByIndex(index);
+
+        if (removed != null) {
+            System.out.println("Deleted: " + removed);
+        } else {
+            System.out.println("Invalid index.");
+        }
+    }
+
+    private void updatePet() {
+        int index = ScannerInput.readNextInt("Enter index to update: ");
+
+        if (!dayCare.isValidPetIndex(index)) {
+            System.out.println("Invalid index.");
+            return;
+        }
+
+        System.out.println("Enter new details:");
+        String name = ScannerInput.readNextString("Name: ");
+        int age = ScannerInput.readNextInt("Age: ");
+        String ownerName = ScannerInput.readNextString("Owner name: ");
+        String ownerPhone = ScannerInput.readNextString("Owner phone: ");
+        int id = ScannerInput.readNextInt("Pet ID: ");
+        int days = ScannerInput.readNextInt("Days per week: ");
+
+        Owner owner = new Owner(ownerName, ownerPhone);
+
+        System.out.println("""
+                Choose Pet Type:
+                1) Dog
+                2) Cat
+                3) Bird
+                4) Parrot
+                """);
+
+        int type = ScannerInput.readNextInt("==>> ");
+
+        Pet updated = null;
+
+        switch (type) {
+            case 1 -> {
+                String breed = ScannerInput.readNextString("Breed: ");
+                boolean dangerous = ScannerInput.readNextBoolean("Dangerous: ");
+                updated = new Dog(name, age, owner, id, breed, dangerous, days);
+            }
+            case 2 -> {
+                boolean indoor = ScannerInput.readNextBoolean("Indoor: ");
+                updated = new Cat(name, age, owner, id, indoor, days);
+            }
+            case 3 -> {
+                double wingSpan = ScannerInput.readNextDouble("WingSpan: ");
+                boolean canFly = ScannerInput.readNextBoolean("Can Fly: ");
+                updated = new Bird(name, age, owner, id, wingSpan, canFly);
+            }
+            case 4 -> {
+                double wingSpan = ScannerInput.readNextDouble("WingSpan: ");
+                boolean canFly = ScannerInput.readNextBoolean("Can Fly: ");
+                int vocab = ScannerInput.readNextInt("Vocabulary size: ");
+                updated = new Parrot(name, age, owner, id, wingSpan, canFly, vocab);
+            }
+        }
+
+        if (updated != null) {
+            dayCare.updatePet(index, updated);
+            System.out.println("Pet updated.");
+        }
+    }
+
+    // ------------------------------------------------------------
+    // Reports Menu
+    // ------------------------------------------------------------
+    private void reportsMenu() {
+        int option;
+
+        do {
+            System.out.println("""
+                    --------- Pet Reports Menu ---------
+                    | 1) List all Pets                 |
+                    | 2) List all Dogs                 |
+                    | 3) List all Cats                 |
+                    | 4) List all Dangerous Dogs       |
+                    | 5) List all Indoor Cats          |
+                    | 6) Weekly Income                 |
+                    | 0) Return to main menu           |
+                    -----------------------------------
+                    """);
+
+            option = ScannerInput.readNextInt("==>> ");
+
+            switch (option) {
+                case 1 -> System.out.println(dayCare.listAllPets());
+                case 2 -> System.out.println(dayCare.listAllDogs());
+                case 3 -> System.out.println(dayCare.listAllCats());
+                case 4 -> System.out.println(dayCare.listAllDangerousDogs());
+                case 5 -> System.out.println(dayCare.numberOfIndoorCats());
+                case 6 -> System.out.println("Weekly Income: €" + dayCare.getWeeklyIncome());
+                case 0 -> {}
+                default -> System.out.println("Invalid option");
+            }
+
+        } while (option != 0);
+    }
+
+    // ------------------------------------------------------------
+    // Search Menu
+    // ------------------------------------------------------------
+    private void searchMenu() {
+        System.out.println("""
+                ----- Search Menu -----
+                1) Search by ID
+                2) Search by Name
+                3) Search Dog by Owner/Breed/Age
+                0) Return
+                """);
+
+        int option = ScannerInput.readNextInt("==>> ");
 
         switch (option) {
             case 1 -> {
-                String authorName = ScannerInput.readNextLine("Enter the Author Name:  ");
-                String message = ScannerInput.readNextLine("Enter the Message:  ");
-                isAdded = newsFeed.addPost(new MessagePet(authorName, message));
+                int id = ScannerInput.readNextInt("Enter ID: ");
+                System.out.println(dayCare.getPetById(id));
             }
             case 2 -> {
-                String authorName = ScannerInput.readNextLine("Enter the Author Name:  ");
-                String caption = ScannerInput.readNextLine("Enter the Caption:  ");
-                String filename = ScannerInput.readNextLine("Enter the Filename:  ");
-                isAdded = newsFeed.addPost(new PhotoPet(authorName, caption, filename));
+                String name = ScannerInput.readNextString("Enter name: ");
+                System.out.println(dayCare.getPet(name));
             }
             case 3 -> {
-                String authorName = ScannerInput.readNextLine("Enter the Author Name:  ");
-                String eventName = ScannerInput.readNextLine("Enter the Event Name:  ");
-                double eventCost = ScannerInput.readNextDouble("Enter the Event Cost:  ");
-                isAdded = newsFeed.addPost(new EventPet(authorName, eventName, eventCost));
+                String owner = ScannerInput.readNextString("Owner: ");
+                String breed = ScannerInput.readNextString("Breed: ");
+                int age = ScannerInput.readNextInt("Age: ");
+                System.out.println(dayCare.findDogByOwnerAndBreedAndAge(owner, breed, age));
             }
-            default -> System.out.println("Invalid option entered: " + option);
-        }
-
-        if (isAdded){
-            System.out.println("Post Added Successfully");
-        }
-        else{
-            System.out.println("No Post Added");
+            case 0 -> {}
+            default -> System.out.println("Invalid option");
         }
     }
 
+    // ------------------------------------------------------------
+    // Sort Menu
+    // ------------------------------------------------------------
+    private void sortMenu() {
+        System.out.println("""
+                ----- Sort Menu -----
+                1) Sort by ID (desc)
+                2) Sort by Name (asc)
+                0) Return
+                """);
 
-    //------------------------------------------------------------------------------------------
-    //  Option 2 - Update Posts - if posts exist, the user is asked if it is a message or a photo pet
-    //             and the required details are then gathered before adding the specific object
-    //------------------------------------------------------------------------------------------
-    private void updatePost() {
+        int option = ScannerInput.readNextInt("==>> ");
 
-        if (newsFeed.numberOfPosts() > 0) {
-            boolean isUpdated = false;
-
-            int option = ScannerInput.readNextInt("""
-                    ---------------------------
-                    |   1) Update a Message Post |
-                    |   2) Update a Photo Post   |
-                    |   3) Update an Event Post  |
-                    ---------------------------
-                    ==>> """);
-
-            switch (option) {
-                case 1 -> {
-                    //ask the user to enter the index of the object to update, and assuming it's valid and is a MessagePost,
-                    //gather the new data from the user and update the selected object.
-                    showMessagePosts();
-                    if (newsFeed.numberOfMessagePosts() > 0) {
-                        int messageIndex = ScannerInput.readNextInt("Enter the index of the message to update ==> ");
-                        if (newsFeed.isValidMessagePostIndex(messageIndex)) {
-                            String author = ScannerInput.readNextLine("Enter the Author Name:  ");
-                            String message = ScannerInput.readNextLine("Enter the Message:  ");
-                            //pass the index of the product and the new product details to Store for updating and check for success.
-                            isUpdated = newsFeed.updateMessagePost(messageIndex, author, message);
-                        }
-                    }
-                }
-                case 2 -> {
-                    //ask the user to enter the index of the object to update, and assuming it's valid and is a PhotoPost,
-                    //gather the new data from the user and update the selected object.
-                    showPhotoPosts();
-                    if (newsFeed.numberOfPhotoPosts() > 0) {
-                        int photoIndex = ScannerInput.readNextInt("Enter the index of the photo pet to update ==> ");
-                        if (newsFeed.isValidPhotoPostIndex(photoIndex)) {
-                            String author = ScannerInput.readNextLine("Enter the Author Name:  ");
-                            String caption = ScannerInput.readNextLine("Enter the Caption:  ");
-                            String filename = ScannerInput.readNextLine("Enter the Filename:  ");
-                            isUpdated = newsFeed.updatePhotoPost(photoIndex, author, caption, filename);
-                        }
-                    }
-                }
-                case 3 -> {
-                    //ask the user to enter the index of the object to update, and assuming it's valid and is a PhotoPost,
-                    //gather the new data from the user and update the selected object.
-                    showEventPosts();
-                    if (newsFeed.numberOfEventPosts() > 0) {
-                        int eventIndex = ScannerInput.readNextInt("Enter the index of the event pet to update ==> ");
-                        if (newsFeed.isValidEventPostIndex(eventIndex)) {
-                            String author = ScannerInput.readNextLine("Enter the Author Name:  ");
-                            String eventName = ScannerInput.readNextLine("Enter the Event Name:  ");
-                            double eventCost = ScannerInput.readNextDouble("Enter the Event Cost:  ");
-                            isUpdated = newsFeed.updateEventPost(eventIndex, author, eventName, eventCost);
-                        }
-                    }
-                }
-                default -> System.out.println("Invalid option entered: " + option);
-            }
-
-            if (isUpdated) {
-                System.out.println("Post Updated Successfully");
-            } else {
-                System.out.println("No Post Updated");
-            }
-        }
-        else{
-                System.out.println("No posts added yet");
-            }
-    }
-
-
-    //------------------------------------------------------------------------------------------
-    //  Option 3 - Delete Posts - if posts exist, print all posts and ask the user to input the index
-    //             of the pet they wish to delete.
-    //------------------------------------------------------------------------------------------
-    private void deletePost(){
-        showPosts();
-        if (newsFeed.numberOfPosts() > 0){
-            //only ask the user to choose the message pet to delete if posts exist
-            int indexToDelete = ScannerInput.readNextInt("Enter the index of the pet to delete ==> ");
-            //pass the index of the message pet to NewsFeed for deleting and check for success.
-            Pet petToDelete = newsFeed.deletePost(indexToDelete);
-            if (petToDelete != null){
-                System.out.println("Delete Successful! Deleted pet: " + petToDelete.display());
-            }
-            else{
-                System.out.println("Delete NOT Successful");
-            }
-        }
-    }
-
-    //---------------------------------------------------------------------
-    //  Option 4 - List Posts
-    //---------------------------------------------------------------------
-
-    //The user is asked if they want to view all posts, or just the messages or photos ones.
-    private void viewPosts() {
-        if (newsFeed.numberOfPosts() > 0) {
-            int option = ScannerInput.readNextInt("""
-                    ---------------------------
-                    |   1) View ALL Posts     |
-                    |   2) View Message Posts |
-                    |   3) View Photo Posts   |
-                    |   4) View Event Posts   |
-                    ---------------------------
-                    ==>>  """);
-
-            switch (option) {
-                case 1 -> showPosts();
-                case 2 -> showMessagePosts();
-                case 3 -> showPhotoPosts();
-                case 4 -> showEventPosts();
-                default -> System.out.println("Invalid option entered: " + option);
-            }
-        }
-        else{
-            System.out.println("Option Invalid - No posts stored");
-        }
-    }
-
-    //print all the posts in newsfeed i.e. array list.
-    private void showPosts(){
-        System.out.println("List of All Posts are:");
-        System.out.println(newsFeed.show());
-    }
-
-    //print the message posts in newsfeed i.e. array list.
-    private void showMessagePosts(){
-        System.out.println("List of Message Posts are:");
-        System.out.println(newsFeed.showMessagePosts());
-    }
-
-    //print the photo posts in newsfeed i.e. array list.
-    private void showPhotoPosts(){
-        System.out.println("List of Photo Posts are:");
-        System.out.println(newsFeed.showPhotoPosts());
-    }
-
-    //print the photo posts in newsfeed i.e. array list.
-    private void showEventPosts(){
-        System.out.println("List of Event Posts are:");
-        System.out.println(newsFeed.showEventPosts());
-    }
-
-    //------------------------------------------------------------------------------------------
-    //  Option 5 - Like / Unlike Posts - the user is asked if it is a message or a photo pet
-    //             and the required details are then gathered before adding the specific object
-    //------------------------------------------------------------------------------------------
-    private void likeUnlikePosts(){
-
-        int likeOption = ScannerInput.readNextInt("""
-                    ---------------------------
-                    | Do you want to...       |
-                    |   1) Like A pet        |
-                    |   2) Unlike a pet      |
-                    ---------------------------
-                    ==>> """);
-
-        switch (likeOption) {
+        switch (option) {
             case 1 -> {
-                showMessagePosts();
-                showPhotoPosts();
-                int index = ScannerInput.readNextInt("Enter the index of the pet ==> ");
-                newsFeed.likeAPost(index);
-                System.out.println(newsFeed.findPost(index).display());
+                dayCare.sortPetsById();
+                System.out.println("Sorted by ID.");
             }
             case 2 -> {
-                showMessagePosts();
-                showPhotoPosts();
-                int index = ScannerInput.readNextInt("Enter the index of the pet ==> ");
-                newsFeed.unLikeAPost(index);
-                System.out.println(newsFeed.findPost(index).display());
+                dayCare.sortPetsByName();
+                System.out.println("Sorted by Name.");
             }
-            default -> System.out.println("Invalid option entered: " + likeOption);
-        }
-
-    }
-
-
-    //---------------------------------------------------------------------
-    //  Options 6 and 7 - Save and Load Posts
-    //---------------------------------------------------------------------
-
-    //save all the posts in the newsFeed to a file on the hard disk
-    private void savePosts() {
-        try {
-            newsFeed.save();
-        } catch (Exception e) {
-            System.err.println("Error writing to file: " + e);
+            case 0 -> {}
+            default -> System.out.println("Invalid option");
         }
     }
 
-    //load all the posts into the newsFeed from a file on the hard disk
-    private void loadPosts() {
-        try {
-            newsFeed.load();
-        } catch (Exception e) {
-            System.err.println("Error reading from file: " + e);
-        }
+    // ------------------------------------------------------------
+    // Persistence
+    // ------------------------------------------------------------
+    private void saveAll() {
+        dayCare.save();
+        System.out.println("Saved successfully.");
     }
 
+    private void loadAll() {
+        dayCare.load();
+        System.out.println("Loaded successfully.");
+    }
 }
