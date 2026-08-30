@@ -7,8 +7,8 @@ public abstract class Bird extends Pet {
     private boolean canFly;
 
     // constructor //
-    public Bird(String name, int age, Owner owner, int id, double wingSpan, boolean canFly) {
-        super(name, age, owner, id);
+    public Bird(String name, int age, Owner owner, int id, double wingSpan, boolean canFly, int numDaysPerWeek) {
+        super(name, age, owner, id, numDaysPerWeek);
         setWingSpan(wingSpan);   // use setter for validation
         this.canFly = canFly;
     }

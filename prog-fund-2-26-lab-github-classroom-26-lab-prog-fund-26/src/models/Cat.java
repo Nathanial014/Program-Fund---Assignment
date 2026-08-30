@@ -23,6 +23,10 @@ public class Cat extends Mammal {
         return indoorCat;
     }
 
+    public boolean isIndoor() {
+        return indoorCat;
+    }
+
     public String getFavouriteToy() {
         return favouriteToy;
     }

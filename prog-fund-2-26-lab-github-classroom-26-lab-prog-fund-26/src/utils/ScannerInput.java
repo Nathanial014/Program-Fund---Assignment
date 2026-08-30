@@ -31,6 +31,19 @@ public class ScannerInput {
         return value;
     }
 
+    public static char readNextChar(String prompt) {
+        System.out.print(prompt);
+        String input = scanner.nextLine().trim();
+
+        while (input.isEmpty()) {
+            System.out.println("Invalid character. Try again.");
+            System.out.print(prompt);
+            input = scanner.nextLine().trim();
+        }
+
+        return input.charAt(0);
+    }
+
     public static double readNextDouble(String prompt) {
         System.out.print(prompt);
         while (!scanner.hasNextDouble()) {

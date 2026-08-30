@@ -32,6 +32,10 @@ public class Dog extends Mammal {
         return dangerousBreed;
     }
 
+    public boolean isDangerous() {
+        return dangerousBreed;
+    }
+
     // setters //
     public void setBreed(String breed) {
         // Use DogBreedUtility to validate breed

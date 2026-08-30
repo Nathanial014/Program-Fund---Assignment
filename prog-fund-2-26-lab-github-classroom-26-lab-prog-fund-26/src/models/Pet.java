@@ -34,6 +34,17 @@ public abstract class Pet {
         this.daysAttending = new boolean[]{false, false, false, false, false, false};
     }
 
+    public Pet(String name, int age, Owner owner, int id, int numDaysPerWeek) {
+        this(name, age, owner, id);   // call your existing constructor
+
+        // Set the first N days to true
+        this.daysAttending = new boolean[]{false, false, false, false, false, false, false};
+        for (int i = 0; i < numDaysPerWeek && i < daysAttending.length; i++) {
+            daysAttending[i] = true;
+        }
+    }
+
+
     // getters //
     public int getId() {
         return id;
@@ -55,6 +66,13 @@ public abstract class Pet {
         return daysAttending;
     }
 
+    public int getNumDaysPerWeek() {
+        int count = 0;
+        for (boolean day : daysAttending) {
+            if (day) count++;
+        }
+        return count;
+    }
 
     // setters //
     public void setId(int id) {

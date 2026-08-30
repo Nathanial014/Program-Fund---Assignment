@@ -1,7 +1,13 @@
 package controllers;
 
-import models.Pet;
+import models.*;
+import utils.BirdUtility;
 import utils.ISerializer;
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -76,7 +82,7 @@ public class PetsDayCareAPI implements ISerializer {
         for (int i = 0; i < pets.size(); i++) {
             sb.append(i).append(": ").append(pets.get(i)).append("\n");
         }
-        return sb.toString()
+        return sb.toString();
     }
 
     public String listAllCats() {
@@ -365,37 +371,39 @@ public class PetsDayCareAPI implements ISerializer {
 
                 Owner owner = new Owner(ownerName, ownerPhone);
 
+                char sex = parts[6].charAt(0);
+                boolean vaccinated = Boolean.parseBoolean(parts[7]);
+                double weight = Double.parseDouble(parts[8]);
+                boolean neutered = Boolean.parseBoolean(parts[9]);
+
                 switch (type) {
 
                     case "DOG":
                         String breed = parts[6];
-                        boolean dangerous = Boolean.parseBoolean(parts[7]);
+                        boolean dangerousBreed = Boolean.parseBoolean(parts[7]);
                         int daysDog = Integer.parseInt(parts[8]);
-                        pets.add(new Dog(name, age, owner, id, breed, dangerous, daysDog));
+                        pets.add(new Dog(name, age, owner, id,
+                                sex, vaccinated, weight, neutered,
+                                breed, dangerousBreed));
                         break;
 
                     case "CAT":
-                        boolean indoor = Boolean.parseBoolean(parts[6]);
-                        int daysCat = Integer.parseInt(parts[7]);
-                        pets.add(new Cat(name, age, owner, id, indoor, daysCat));
+                        boolean indoorCat = Boolean.parseBoolean(parts[10]);
+                        String favouriteToy = parts[11];
+                        pets.add(new Cat(name, age, owner, id,
+                                sex, vaccinated, weight, neutered,
+                                indoorCat, favouriteToy));
                         break;
 
                     case "PARROT":
                         double wingSpan = Double.parseDouble(parts[6]);
                         boolean canFly = Boolean.parseBoolean(parts[7]);
-                        String vocab = parts[8];
-                        int daysParrot = Integer.parseInt(parts[9]);
+                        int vocabInt = BirdUtility.convertVocabularySizeReverse(parts[8]);
+                        int numDaysPerWeek = Integer.parseInt(parts[9]);
 
-                        int vocabInt = BirdUtility.convertVocabularySizeReverse(vocab);
-
-                        pets.add(new Parrot(name, age, owner, id, wingSpan, canFly, vocabInt));
-                        break;
-
-                    case "BIRD":
-                        double ws = Double.parseDouble(parts[6]);
-                        boolean cf = Boolean.parseBoolean(parts[7]);
-                        int daysBird = Integer.parseInt(parts[8]);
-                        pets.add(new Bird(name, age, owner, id, ws, cf));
+                        pets.add(new Parrot(name, age, owner, id,
+                                wingSpan, canFly,
+                                vocabInt, numDaysPerWeek));
                         break;
                 }
             }

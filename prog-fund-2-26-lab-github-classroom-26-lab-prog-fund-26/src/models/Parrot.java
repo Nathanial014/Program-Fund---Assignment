@@ -1,5 +1,7 @@
 package models;
 
+import utils.BirdUtility;
+
 public class Parrot extends Bird {
 
     // field //
@@ -7,9 +9,9 @@ public class Parrot extends Bird {
 
     // constructor //
     public Parrot(String name, int age, Owner owner, int id,
-                  double wingSpan, boolean canFly, int vocabularySize) {
+                  double wingSpan, boolean canFly, int vocabularySize, int numDaysPerWeek) {
 
-        super(name, age, owner, id, wingSpan, canFly);
+        super(name, age, owner, id, wingSpan, canFly, numDaysPerWeek);
         setVocabularySize(vocabularySize);   // convert using BirdUtility
     }
 

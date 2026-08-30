@@ -1,8 +1,7 @@
 package main;
 
 import controllers.PetsDayCareAPI;
-import models.Owner;
-import models.Pet;
+import models.*;
 import utils.ScannerInput;
 
 import java.io.File;
@@ -110,26 +109,34 @@ public class Driver {
 
         Pet pet = null;
 
+        char sex = ScannerInput.readNextChar("Sex (M/F): ");
+        boolean vaccinated = ScannerInput.readNextBoolean("Vaccinated: ");
+        double weight = ScannerInput.readNextDouble("Weight (kg): ");
+        boolean neutered = ScannerInput.readNextBoolean("Neutered: ");
+
         switch (type) {
             case 1 -> {
                 String breed = ScannerInput.readNextString("Breed: ");
-                boolean dangerous = ScannerInput.readNextBoolean("Dangerous (true/false): ");
-                pet = new Dog(name, age, owner, id, breed, dangerous, days);
+                boolean dangerousBreed = ScannerInput.readNextBoolean("Dangerous (true/false): ");
+                pet = new Dog(name, age, owner, id,
+                        sex, vaccinated, weight, neutered,
+                        breed, dangerousBreed);
             }
             case 2 -> {
-                boolean indoor = ScannerInput.readNextBoolean("Indoor (true/false): ");
-                pet = new Cat(name, age, owner, id, indoor, days);
+                boolean indoorCat = ScannerInput.readNextBoolean("Indoor Cat: ");
+                String favouriteToy = ScannerInput.readNextString("Favourite Toy: ");
+                pet = new Cat(name, age, owner, id,
+                        sex, vaccinated, weight, neutered,
+                        indoorCat, favouriteToy);
             }
             case 3 -> {
                 double wingSpan = ScannerInput.readNextDouble("WingSpan: ");
                 boolean canFly = ScannerInput.readNextBoolean("Can Fly (true/false): ");
-                pet = new Bird(name, age, owner, id, wingSpan, canFly);
-            }
-            case 4 -> {
-                double wingSpan = ScannerInput.readNextDouble("WingSpan: ");
-                boolean canFly = ScannerInput.readNextBoolean("Can Fly (true/false): ");
                 int vocab = ScannerInput.readNextInt("Vocabulary size (int): ");
-                pet = new Parrot(name, age, owner, id, wingSpan, canFly, vocab);
+                int numDaysPerWeek = ScannerInput.readNextInt("Days Attending Per Week: ");
+                pet = new Parrot(name, age, owner, id,
+                        wingSpan, canFly,
+                        vocab, numDaysPerWeek);
             }
             default -> System.out.println("Invalid type");
         }
@@ -182,26 +189,34 @@ public class Driver {
 
         Pet updated = null;
 
+        char sex = ScannerInput.readNextChar("Sex (M/F): ");
+        boolean vaccinated = ScannerInput.readNextBoolean("Vaccinated: ");
+        double weight = ScannerInput.readNextDouble("Weight (kg): ");
+        boolean neutered = ScannerInput.readNextBoolean("Neutered: ");
+
         switch (type) {
             case 1 -> {
                 String breed = ScannerInput.readNextString("Breed: ");
-                boolean dangerous = ScannerInput.readNextBoolean("Dangerous: ");
-                updated = new Dog(name, age, owner, id, breed, dangerous, days);
+                boolean dangerousBreed = ScannerInput.readNextBoolean("Dangerous: ");
+                updated = new Dog(name, age, owner, id,
+                        sex, vaccinated, weight, neutered,
+                        breed, dangerousBreed);
             }
             case 2 -> {
-                boolean indoor = ScannerInput.readNextBoolean("Indoor: ");
-                updated = new Cat(name, age, owner, id, indoor, days);
+                boolean indoorCat = ScannerInput.readNextBoolean("Indoor: ");
+                String favouriteToy = ScannerInput.readNextString("Favourite Toy: ");
+                updated = new Cat(name, age, owner, id,
+                        sex, vaccinated, weight, neutered,
+                        indoorCat, favouriteToy);
             }
             case 3 -> {
                 double wingSpan = ScannerInput.readNextDouble("WingSpan: ");
                 boolean canFly = ScannerInput.readNextBoolean("Can Fly: ");
-                updated = new Bird(name, age, owner, id, wingSpan, canFly);
-            }
-            case 4 -> {
-                double wingSpan = ScannerInput.readNextDouble("WingSpan: ");
-                boolean canFly = ScannerInput.readNextBoolean("Can Fly: ");
                 int vocab = ScannerInput.readNextInt("Vocabulary size: ");
-                updated = new Parrot(name, age, owner, id, wingSpan, canFly, vocab);
+                int numDaysPerWeek = ScannerInput.readNextInt("Days Attending Per Week: ");
+                updated = new Parrot(name, age, owner, id,
+                        wingSpan, canFly,
+                        vocab, numDaysPerWeek);
             }
         }
 
