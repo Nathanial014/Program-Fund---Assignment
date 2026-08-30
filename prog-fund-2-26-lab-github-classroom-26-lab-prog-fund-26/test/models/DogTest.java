@@ -18,9 +18,12 @@ class DogTest {
         Owner o = new Owner("Bob", "999");
         Dog d = new Dog("Rex", 3, o, 1, 'M', true, 20, false,
                 "Bulldog", true);
+        d.checkIn(0);
+        d.checkIn(1);
         double dangerousRate = d.calculateWeeklyFee();
         d.setDangerousBreed(false);
         double safeRate = d.calculateWeeklyFee();
+
         assertTrue(dangerousRate > safeRate);
     }
 

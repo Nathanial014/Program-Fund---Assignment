@@ -45,11 +45,13 @@ public abstract class Bird extends Pet {
     // equals //
     @Override
     public boolean equals(Object obj) {
-        if (!super.equals(obj)) return false;
+        if (this == obj) return true;
         if (!(obj instanceof Bird)) return false;
 
         Bird other = (Bird) obj;
-        return this.wingSpan == other.wingSpan &&
-                this.canFly == other.canFly;
+
+        return this.getId() == other.getId() &&
+                this.getWingSpan() == other.getWingSpan() &&
+                this.isCanFly() == other.isCanFly();
     }
 }
